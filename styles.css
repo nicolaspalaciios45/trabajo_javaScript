@@ -1,0 +1,520 @@
+/* ===== RESET ===== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url("multimedia/fondo.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  /* ✅ Evita que WhatsApp/Carrito pisen el footer */
+  padding-bottom: 140px;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: rgba(0,0,0,0.6);
+  color: white;
+  position: relative;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+
+.logo-img { width: 50px; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+  padding: 8px 14px;
+  border: 1px solid white;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #f0c040;
+  color: #111;
+  border-color: #f0c040;
+}
+
+.hamburger {
+  display: none;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  font-size: 28px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== CONTENIDO ===== */
+main {
+  background-color: rgba(253, 246, 234, 0.92);
+  margin: 40px auto;
+  padding: 50px 20px;
+  border-radius: 20px;
+  max-width: 1100px;
+  text-align: center;
+}
+
+main h1 { font-size: 42px; }
+
+/* ===== PRODUCTOS ===== */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 30px auto 0;
+  padding: 0 10px;
+}
+
+.producto {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.producto:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* IMAGEN CON ZOOM */
+.producto img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 15px;
+  cursor: zoom-in;
+  transition: 0.3s ease;
+}
+
+.producto:hover img {
+  transform: scale(1.08);
+  filter: drop-shadow(0 8px 15px rgba(0,0,0,0.3));
+}
+
+/* TITULO CON LINEA */
+.producto h3 {
+  margin: 10px 0 5px;
+  position: relative;
+  display: inline-block;
+}
+
+.producto h3::after {
+  content: "";
+  display: block;
+  width: 0%;
+  height: 3px;
+  background: black;
+  margin: 6px auto 0;
+  transition: 0.3s ease;
+  border-radius: 2px;
+}
+
+.producto:hover h3::after {
+  width: 60%;
+}
+
+/* PRECIO */
+.precio {
+  font-weight: bold;
+  color: #c9a43b;
+  font-size: 18px;
+}
+
+/* BOTON AGREGAR */
+.btn-add {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #111;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.btn-add:hover {
+  background: #f0c040;
+  color: #111;
+}
+
+/* ✅ INDICADOR PC (aparece con hover) */
+.producto::after {
+  content: "";
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.producto:hover::after {
+  opacity: 1;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background-color: rgba(0,0,0,0.75);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ===== WHATSAPP ===== */
+.whatsapp {
+  position: fixed;
+  bottom: 25px;      /* ✅ subido */
+  right: 20px;
+  background: #25D366;
+  padding: 15px;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.whatsapp:hover { transform: scale(1.1); }
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal.show { display: flex; }
+
+.modal-content {
+  background: #fff;
+  width: min(620px, 92%);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.cerrar {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* ===== SLIDER MODAL PRO ===== */
+.slider{
+  position: relative;
+  display: grid;
+  grid-template-columns: 50px 1fr 50px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.flecha{
+  border: none;
+  background: rgba(0,0,0,0.08);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flecha:hover{ background: rgba(0,0,0,0.15); }
+
+.slider-viewport{
+  overflow: hidden;
+  width: 100%;
+}
+
+.slider-track{
+  display: flex;
+  transition: transform 0.35s ease;
+  will-change: transform;
+}
+
+.slider-track img{
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  flex: 0 0 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.dots{
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.dot.active{ background: #111; }
+
+/* ===== BOTON WHATSAPP EN CARRITO ===== */
+.btn-wsp{
+  display: inline-block;
+  background: #25D366;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===== CARRITO ===== */
+.carrito-btn {
+  position: fixed;
+  bottom: 25px;  /* ✅ subido */
+  left: 20px;
+  z-index: 2000;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.carrito-btn span {
+  background: #f0c040;
+  color: #111;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+.carrito-panel {
+  position: fixed;
+  top: 0;
+  right: -380px;
+  width: 360px;
+  height: 100vh;
+  background: #fff;
+  z-index: 2500;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.25);
+  transition: 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.carrito-panel.open { right: 0; }
+
+.carrito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.carrito-items {
+  padding: 12px 16px;
+  overflow: auto;
+  flex: 1;
+}
+
+.item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.item .info { flex: 1; }
+
+.item .controles {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item button {
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.carrito-footer {
+  border-top: 1px solid #eee;
+  padding: 12px 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.btn-sec {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+
+/* ===== VISOR DE IMAGEN (ZOOM EXTRA) ===== */
+.visor {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.visor img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 12px;
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.visor .cerrar {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  float: none;
+}
+
+/* ===== SOLO CELULAR ===== */
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 15px;
+    background: rgba(0,0,0,0.9);
+    padding: 12px;
+    border-radius: 12px;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 999;
+  }
+
+  .nav-links.open { display: flex; }
+
+  .nav-links a {
+    margin: 0;
+    width: 160px;
+    text-align: center;
+  }
+
+  /* ✅ Línea siempre visible en celular */
+  .producto h3::after {
+    width: 60%;
+  }
+
+  /* ✅ Indicador siempre visible en celular */
+  .producto::after {
+    content: "👆 Tocar para ampliar";
+    opacity: 1;
+    bottom: 70px;
+  }
+
+  /* ✅ Más espacio abajo en celular */
+  body {
+    padding-bottom: 160px;
+  }
+}
+
+/* ===== SECCIÓN PERSONALIZACIÓN ===== */
+.personalizacion {
+  max-width: 900px;
+  margin: 10px auto 30px;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.personalizacion h2 {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  position: relative;
+}
+
+.personalizacion h2::after {
+  content: "";
+  display: block;
+  width: 70%;
+  height: 4px;
+  background: #111;
+  margin: 10px auto 0;
+  border-radius: 3px;
+}
+
+.personalizacion p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin: 0;
+  color: #222;
+}
+
