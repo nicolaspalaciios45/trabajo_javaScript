@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "nombre": "Funda de bombo",
+    "precio": 15000,
+    "img": "multimedia/fundas bombo.png",
+    "imgs": "multimedia/fundas bombo.png,multimedia/fundas bombo.png,multimedia/fundas bombo.png"
+  },
+  {
+    "id": 2,
+    "nombre": "Funda de guitarra",
+    "precio": 18000,
+    "img": "multimedia/porta guitarras.png",
+    "imgs": "multimedia/porta guitarras.png,multimedia/porta guitarras.png,multimedia/porta guitarras.png"
+  },
+  {
+    "id": 3,
+    "nombre": "Porta traje",
+    "precio": 12000,
+    "img": "multimedia/porta traje.png",
+    "imgs": "multimedia/porta traje.png,multimedia/porta traje.png,multimedia/porta traje.png"
+  },
+  {
+    "id": 4,
+    "nombre": "Funda de computadora",
+    "precio": 10000,
+    "img": "multimedia/fundas de computadora.png",
+    "imgs": "multimedia/fundas de computadora.png,multimedia/fundas de computadora.png,multimedia/fundas de computadora.png"
+  },
+  {
+    "id": 5,
+    "nombre": "Mochila",
+    "precio": 20000,
+    "img": "multimedia/mochilas.png",
+    "imgs": "multimedia/mochilas.png,multimedia/mochilas.png,multimedia/mochilas.png"
+  },
+  {
+    "id": 6,
+    "nombre": "Bolso de viaje",
+    "precio": 25000,
+    "img": "multimedia/bolso de viaje (2).png",
+    "imgs": "multimedia/bolso de viaje (2).png,multimedia/bolso de viaje (2).png,multimedia/bolso de viaje (2).png"
+  }
+]

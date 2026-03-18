@@ -1,17 +1,29 @@
+// ================================================
+// PROYECTO FINAL: Fundas Guru - Ecommerce JS
+// Funcionalidades:
+// - Carga de productos desde JSON externo (async)
+// - Carrito de compras con localStorage
+// - Modal con slider de imágenes
+// - Cotización USD en tiempo real (fetch API)
+// - Notificaciones con SweetAlert2
+// ================================================
+
+// ================================================
+// TOGGLE MENÚ HAMBURGUESA
+// ================================================
 function toggleMenu() {
   document.getElementById("navLinks").classList.toggle("open");
 }
 
-// ===============================
-// ASINCRONISMO: fetch a API externa
-// ===============================
+// ================================================
+// ASINCRONISMO: Cotización USD desde API externa
+// ================================================
 async function obtenerCambioUSD() {
   try {
     const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
     if (!res.ok) throw new Error("Error al obtener cotización");
     const data = await res.json();
     const ars = data.rates.ARS;
-
     const el = document.getElementById("cotizacion");
     if (el) el.innerText = `💵 USD 1 = $${Math.round(ars).toLocaleString("es-AR")} ARS`;
   } catch (e) {
@@ -19,21 +31,72 @@ async function obtenerCambioUSD() {
   }
 }
 
+// ================================================
+// ASINCRONISMO: Carga de productos desde JSON
+// ================================================
+async function cargarProductos() {
+  try {
+    const res = await fetch("productos.json");
+    if (!res.ok) throw new Error("No se pudo cargar productos.json");
+    const productos = await res.json();
+    return productos;
+  } catch (e) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudieron cargar los productos.",
+    });
+    return [];
+  }
+}
+
+// ================================================
+// RENDERIZAR PRODUCTOS EN EL HTML DINÁMICAMENTE
+// ================================================
+function renderizarProductos(productos) {
+  const contenedor = document.querySelector(".productos");
+  if (!contenedor) return;
+
+  contenedor.innerHTML = "";
+
+  productos.forEach((p) => {
+    const div = document.createElement("div");
+    div.className = "producto";
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.nombre}">
+      <h3>${p.nombre}</h3>
+      <p class="precio">$${p.precio.toLocaleString("es-AR")}</p>
+      <button class="btn-add"
+        data-nombre="${p.nombre}"
+        data-precio="${p.precio}"
+        data-img="${p.img}"
+        data-imgs="${p.imgs}">
+        Agregar al carrito
+      </button>
+    `;
+    contenedor.appendChild(div);
+  });
+}
+
+// ================================================
+// INICIO: DOMContentLoaded
+// ================================================
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // Llamada asíncrona al cargar la página
+  const numero = "549TU_NUMERO"; // <-- reemplazá con tu número real
+
+  // Llamadas asíncronas al cargar
   await obtenerCambioUSD();
+  const productos = await cargarProductos();
+  renderizarProductos(productos);
 
-  const numero = "549TU_NUMERO"; // <-- poné tu número real SIN + y SIN espacios
-
-  // ===============================
-  // MODAL + SLIDER PRO
-  // ===============================
+  // ================================================
+  // MODAL + SLIDER
+  // ================================================
   const modal = document.getElementById("modal");
   const cerrar = document.getElementById("cerrar");
   const modalTitulo = document.getElementById("modalTitulo");
   const modalPrecio = document.getElementById("modalPrecio");
-
   const prevImg = document.getElementById("prevImg");
   const nextImg = document.getElementById("nextImg");
   const dotsBox = document.getElementById("dots");
@@ -98,44 +161,38 @@ document.addEventListener("DOMContentLoaded", async () => {
     sliderViewport.addEventListener("touchend", () => {
       const diff = endX - startX;
       if (Math.abs(diff) < 40) return;
-      if (diff < 0) cambiarImg(1);
-      else cambiarImg(-1);
+      cambiarImg(diff < 0 ? 1 : -1);
       startX = 0; endX = 0;
     });
   }
 
-  document.querySelectorAll(".producto").forEach(card => {
-    card.addEventListener("click", (e) => {
-      if (e.target.classList.contains("btn-add")) return;
+  // Delegación de eventos para productos renderizados dinámicamente
+  document.addEventListener("click", (e) => {
+    const card = e.target.closest(".producto");
+    if (!card) return;
+    if (e.target.classList.contains("btn-add")) return;
 
-      const titulo = card.querySelector("h3")?.innerText || "";
-      const precio = card.querySelector(".precio")?.innerText || "";
+    const titulo = card.querySelector("h3")?.innerText || "";
+    const precio = card.querySelector(".precio")?.innerText || "";
+    const btn = card.querySelector(".btn-add");
+    const imgDefault = card.querySelector("img")?.getAttribute("src") || "";
+    const dataImgs = btn?.dataset.imgs;
 
-      modalTitulo.innerText = titulo;
-      modalPrecio.innerText = precio;
+    if (modalTitulo) modalTitulo.innerText = titulo;
+    if (modalPrecio) modalPrecio.innerText = precio;
 
-      const btn = card.querySelector(".btn-add");
-      const imgDefault = card.querySelector("img")?.getAttribute("src") || "";
-      const dataImgs = btn?.dataset.imgs;
-
-      if (dataImgs) {
-        imagenesActuales = dataImgs.split(",").map(s => s.trim());
-      } else {
-        imagenesActuales = [imgDefault];
-      }
-
-      indexImg = 0;
-      renderSlider();
-      modal.classList.add("show");
-    });
+    imagenesActuales = dataImgs ? dataImgs.split(",").map(s => s.trim()) : [imgDefault];
+    indexImg = 0;
+    renderSlider();
+    if (modal) modal.classList.add("show");
   });
 
   if (cerrar) cerrar.addEventListener("click", () => modal.classList.remove("show"));
   if (modal) modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
 
-  // ===============================
+  // ================================================
   // CARRITO
-  // ===============================
+  // ================================================
   const KEY = "carrito_fundas_guru";
   let carrito = JSON.parse(localStorage.getItem(KEY)) || [];
 
@@ -149,21 +206,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnCancelar = document.getElementById("btnCancelar");
   const btnComprar = document.getElementById("btnComprar");
 
+  // Guardar carrito en localStorage
   function guardar() {
     localStorage.setItem(KEY, JSON.stringify(carrito));
   }
 
+  // Formatear precio en pesos argentinos
   function money(n) {
     return "$" + n.toLocaleString("es-AR");
   }
 
+  // Actualizar vista del carrito
   function actualizar() {
     if (!itemsBox) return;
 
-    countBox.innerText = carrito.reduce((acc, p) => acc + p.cantidad, 0);
-
+    if (countBox) countBox.innerText = carrito.reduce((acc, p) => acc + p.cantidad, 0);
     const total = carrito.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
-    totalBox.innerText = money(total);
+    if (totalBox) totalBox.innerText = money(total);
 
     if (carrito.length === 0) {
       itemsBox.innerHTML = "<p>Tu carrito está vacío.</p>";
@@ -187,25 +246,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     `).join("");
   }
 
-  document.querySelectorAll(".btn-add").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
+  // Agregar producto al carrito (delegación de eventos)
+  document.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("btn-add")) return;
+    e.stopPropagation();
 
-      const nombre = btn.dataset.nombre;
-      const precio = Number(btn.dataset.precio);
-      const img = btn.dataset.img;
+    const btn = e.target;
+    const nombre = btn.dataset.nombre;
+    const precio = Number(btn.dataset.precio);
+    const img = btn.dataset.img;
 
-      const existente = carrito.find(p => p.nombre === nombre);
+    const existente = carrito.find(p => p.nombre === nombre);
+    if (existente) existente.cantidad += 1;
+    else carrito.push({ nombre, precio, img, cantidad: 1 });
 
-      if (existente) existente.cantidad += 1;
-      else carrito.push({ nombre, precio, img, cantidad: 1 });
+    guardar();
+    actualizar();
+    if (panel) panel.classList.add("open");
 
-      guardar();
-      actualizar();
-      panel.classList.add("open");
+    // Notificación con SweetAlert2
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: `${nombre} agregado al carrito`,
+      showConfirmButton: false,
+      timer: 1500,
     });
   });
 
+  // Funciones globales del carrito
   window.sumar = function(i) {
     carrito[i].cantidad++;
     guardar();
@@ -226,9 +296,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   if (btnVaciar) btnVaciar.addEventListener("click", () => {
-    carrito = [];
-    guardar();
-    actualizar();
+    Swal.fire({
+      title: "¿Vaciar carrito?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, vaciar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        carrito = [];
+        guardar();
+        actualizar();
+      }
+    });
   });
 
   if (btnCancelar) btnCancelar.addEventListener("click", () => {
@@ -239,11 +319,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   if (btnComprar) btnComprar.addEventListener("click", () => {
-    if (carrito.length === 0) return;
-
+    if (carrito.length === 0) {
+      Swal.fire({ icon: "warning", title: "Carrito vacío", text: "Agregá productos antes de comprar." });
+      return;
+    }
     const resumen = carrito.map(p => `• ${p.nombre} x${p.cantidad} = ${money(p.precio * p.cantidad)}`).join("\n");
     const total = carrito.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
-
     const mensaje = `Hola! Quiero comprar:\n${resumen}\n\nTotal: ${money(total)}`;
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
   });
@@ -253,22 +334,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   actualizar();
 
-  // ===============================
-  // VISOR EXTRA (ZOOM CLICK EN IMAGEN)
-  // ===============================
+  // ================================================
+  // VISOR EXTRA (ZOOM EN IMAGEN)
+  // ================================================
   const visor = document.getElementById("visorImagen");
   const imagenGrande = document.getElementById("imagenGrande");
   const cerrarVisor = document.getElementById("cerrarVisor");
 
   if (visor && imagenGrande && cerrarVisor) {
-    document.querySelectorAll(".producto img").forEach(img => {
-      img.addEventListener("click", (e) => {
-        e.stopPropagation();
-        imagenGrande.src = img.src;
-        visor.style.display = "flex";
-      });
+    document.addEventListener("click", (e) => {
+      if (!e.target.matches(".producto img")) return;
+      e.stopPropagation();
+      imagenGrande.src = e.target.src;
+      visor.style.display = "flex";
     });
-
     cerrarVisor.addEventListener("click", () => visor.style.display = "none");
     visor.addEventListener("click", (e) => { if (e.target === visor) visor.style.display = "none"; });
   }
