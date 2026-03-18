@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos - Fundas Guru</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="multimedia/logo guru.png" alt="Fundas Guru Logo" class="logo-img" />
+      <span>Fundas Guru</span>
+    </div>
+
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="producto.html" class="active">Productos</a>
+     
+    </nav>
+  </header>
+
+  <main>
+ <h1>Productos</h1>
+<p id="cotizacion" style="text-align:center; font-weight:bold; color:#c9a43b;"></p>
+  <section class="personalizacion">
+    <h2>¡Tu funda, tu estilo!</h2>
+    <p>
+      Fundas GP te ofrece la posibilidad de personalizar todos nuestros productos con
+      nombre e incluso logos y medidas.
+    </p>
+  </section>
+
+    <div class="productos">
+
+      <div class="producto">
+        <img src="multimedia/fundas bombo.png" alt="Funda de bombo">
+        <h3>Funda de bombo</h3>
+        <p class="precio">$15.000</p>
+
+        <button class="btn-add"
+          data-nombre="Funda de bombo"
+          data-precio="15000"
+          data-img="multimedia/fundas bombo.png"
+          data-imgs="multimedia/fundas bombo.png,multimedia/fundas bombo.png,multimedia/fundas bombo.png">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="producto">
+        <img src="multimedia/porta guitarras.png" alt="Funda de guitarra">
+        <h3>Funda de guitarra</h3>
+        <p class="precio">$18.000</p>
+
+        <button class="btn-add"
+          data-nombre="Funda de guitarra"
+          data-precio="18000"
+          data-img="multimedia/porta guitarras.png"
+          data-imgs="multimedia/porta guitarras.png,multimedia/porta guitarras.png,multimedia/porta guitarras.png">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="producto">
+        <img src="multimedia/porta traje.png" alt="Porta traje">
+        <h3>Porta traje</h3>
+        <p class="precio">$12.000</p>
+
+        <button class="btn-add"
+          data-nombre="Porta traje"
+          data-precio="12000"
+          data-img="multimedia/porta traje.png"
+          data-imgs="multimedia/porta traje.png,multimedia/porta traje.png,multimedia/porta traje.png">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="producto">
+        <img src="multimedia/fundas de computadora.png" alt="Funda de computadora">
+        <h3>Funda de computadora</h3>
+        <p class="precio">$10.000</p>
+
+        <button class="btn-add"
+          data-nombre="Funda de computadora"
+          data-precio="10000"
+          data-img="multimedia/fundas de computadora.png"
+          data-imgs="multimedia/fundas de computadora.png,multimedia/fundas de computadora.png,multimedia/fundas de computadora.png">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="producto">
+        <img src="multimedia/mochilas.png" alt="Mochila">
+        <h3>Mochila</h3>
+        <p class="precio">$20.000</p>
+
+        <button class="btn-add"
+          data-nombre="Mochila"
+          data-precio="20000"
+          data-img="multimedia/mochilas.png"
+          data-imgs="multimedia/mochilas.png,multimedia/mochilas.png,multimedia/mochilas.png">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="producto">
+        <img src="multimedia/bolso de viaje (2).png" alt="Bolso de viaje">
+        <h3>Bolso de viaje</h3>
+        <p class="precio">$25.000</p>
+
+        <button class="btn-add"
+          data-nombre="Bolso de viaje"
+          data-precio="25000"
+          data-img="multimedia/bolso de viaje (2).png"
+          data-imgs="multimedia/bolso de viaje (2).png,multimedia/bolso de viaje (2).png,multimedia/bolso de viaje (2).png">
+          Agregar al carrito
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>Fundas Guru · Creado por NNC</p>
+  </footer>
+
+  <!-- BOTÓN WHATSAPP GENERAL -->
+  <a href="https://wa.me/549TU_NUMERO" target="_blank" class="whatsapp">
+    <img src="multimedia/wassap. png.png" alt="WhatsApp" style="width: 30px; height: 30px;">
+  </a>
+
+  <!-- BOTÓN CARRITO -->
+  <button id="btnCarrito" class="carrito-btn">🛒 <span id="carritoCount">0</span></button>
+
+  <!-- PANEL CARRITO -->
+  <div id="carritoPanel" class="carrito-panel">
+    <div class="carrito-header">
+      <h2>Carrito</h2>
+      <button id="cerrarCarrito" class="cerrar">✕</button>
+    </div>
+
+    <div id="carritoItems" class="carrito-items"></div>
+
+    <div class="carrito-footer">
+      <p>Total: <strong id="carritoTotal">$0</strong></p>
+      <button id="btnVaciar" class="btn-sec">Vaciar</button>
+      
+      <button id="btnComprar" class="btn-wsp">Comprar por WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- MODAL INFO + SLIDER PRO -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="cerrar" class="cerrar">&times;</span>
+
+      <div class="slider">
+        <button id="prevImg" class="flecha" aria-label="Anterior">‹</button>
+
+        <div class="slider-viewport">
+          <div id="sliderTrack" class="slider-track"></div>
+        </div>
+
+        <button id="nextImg" class="flecha" aria-label="Siguiente">›</button>
+      </div>
+
+      <div id="dots" class="dots"></div>
+
+      <h2 id="modalTitulo"></h2>
+      <p id="modalPrecio"></p>
+    </div>
+  </div>
+
+  <!-- VISOR DE IMAGEN (ZOOM EXTRA) -->
+  <div id="visorImagen" class="visor">
+    <span id="cerrarVisor" class="cerrar">&times;</span>
+    <img id="imagenGrande" src="">
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
