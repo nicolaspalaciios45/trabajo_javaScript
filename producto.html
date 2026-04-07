@@ -21,8 +21,9 @@
     <nav class="nav-links" id="navLinks">
       <a href="index.html">Inicio</a>
       <a href="producto.html" class="active">Productos</a>
-     
     </nav>
+
+    <button id="btnCarrito" class="carrito-btn-nav">🛒 <span id="carritoCount">0</span></button>
   </header>
 
   <main>
@@ -36,13 +37,24 @@
     </p>
   </section>
 
+    <div class="buscador-wrapper">
+      <input type="text" id="buscadorProductos" placeholder="Buscar producto..." autocomplete="off" />
+    </div>
+
+    <div class="filtros-wrapper">
+      <button class="filtro-btn active" data-filtro="todos">Todos</button>
+      <button class="filtro-btn" data-filtro="instrumentos">Fundas instrumentos</button>
+      <button class="filtro-btn" data-filtro="bolsos">Bolsos</button>
+    </div>
+
+    <p id="sinResultados" class="sin-resultados" style="display:none;">No se encontraron productos.</p>
+
     <div class="productos">
 
-      <div class="producto">
+      <div class="producto" data-categoria="instrumentos">
         <img src="multimedia/fundas bombo.png" alt="Funda de bombo">
         <h3>Funda de bombo</h3>
         <p class="precio">$15.000</p>
-
         <button class="btn-add"
           data-nombre="Funda de bombo"
           data-precio="15000"
@@ -52,11 +64,10 @@
         </button>
       </div>
 
-      <div class="producto">
+      <div class="producto" data-categoria="instrumentos">
         <img src="multimedia/porta guitarras.png" alt="Funda de guitarra">
         <h3>Funda de guitarra</h3>
         <p class="precio">$18.000</p>
-
         <button class="btn-add"
           data-nombre="Funda de guitarra"
           data-precio="18000"
@@ -66,11 +77,10 @@
         </button>
       </div>
 
-      <div class="producto">
+      <div class="producto" data-categoria="bolsos">
         <img src="multimedia/porta traje.png" alt="Porta traje">
         <h3>Porta traje</h3>
         <p class="precio">$12.000</p>
-
         <button class="btn-add"
           data-nombre="Porta traje"
           data-precio="12000"
@@ -80,11 +90,10 @@
         </button>
       </div>
 
-      <div class="producto">
+      <div class="producto" data-categoria="bolsos">
         <img src="multimedia/fundas de computadora.png" alt="Funda de computadora">
         <h3>Funda de computadora</h3>
         <p class="precio">$10.000</p>
-
         <button class="btn-add"
           data-nombre="Funda de computadora"
           data-precio="10000"
@@ -94,11 +103,10 @@
         </button>
       </div>
 
-      <div class="producto">
+      <div class="producto" data-categoria="bolsos">
         <img src="multimedia/mochilas.png" alt="Mochila">
         <h3>Mochila</h3>
         <p class="precio">$20.000</p>
-
         <button class="btn-add"
           data-nombre="Mochila"
           data-precio="20000"
@@ -108,11 +116,10 @@
         </button>
       </div>
 
-      <div class="producto">
+      <div class="producto" data-categoria="bolsos">
         <img src="multimedia/bolso de viaje (2).png" alt="Bolso de viaje">
         <h3>Bolso de viaje</h3>
         <p class="precio">$25.000</p>
-
         <button class="btn-add"
           data-nombre="Bolso de viaje"
           data-precio="25000"
@@ -134,9 +141,6 @@
     <img src="multimedia/wassap. png.png" alt="WhatsApp" style="width: 30px; height: 30px;">
   </a>
 
-  <!-- BOTÓN CARRITO -->
-  <button id="btnCarrito" class="carrito-btn">🛒 <span id="carritoCount">0</span></button>
-
   <!-- PANEL CARRITO -->
   <div id="carritoPanel" class="carrito-panel">
     <div class="carrito-header">
@@ -150,7 +154,7 @@
       <p>Total: <strong id="carritoTotal">$0</strong></p>
       <button id="btnVaciar" class="btn-sec">Vaciar</button>
       
-      <button id="btnComprar" class="btn-wsp">Comprar por WhatsApp</button>
+      <button id="btnComprar" class="btn-wsp">Confirmar compra</button>
     </div>
   </div>
 
@@ -173,6 +177,123 @@
 
       <h2 id="modalTitulo"></h2>
       <p id="modalPrecio"></p>
+    </div>
+  </div>
+
+  <!-- ================================================
+       CHECKOUT MODAL (3 pasos + confirmación)
+  ================================================ -->
+  <div id="checkoutOverlay" class="ck-overlay">
+    <div class="ck-box">
+
+      <!-- Stepper -->
+      <div class="ck-stepper" id="ckStepper">
+        <div class="ck-step-dot active" id="ckDot1">1</div>
+        <div class="ck-step-line" id="ckLine1"></div>
+        <div class="ck-step-dot" id="ckDot2">2</div>
+        <div class="ck-step-line" id="ckLine2"></div>
+        <div class="ck-step-dot" id="ckDot3">3</div>
+      </div>
+      <div class="ck-step-labels">
+        <span>Datos</span>
+        <span>Envío</span>
+        <span>Pago</span>
+      </div>
+
+      <!-- PASO 1: Datos personales -->
+      <div class="ck-step" id="ckStep1">
+        <h2 class="ck-titulo">Datos personales</h2>
+        <input class="ck-input" type="text" id="ckNombre" placeholder="Nombre *" />
+        <input class="ck-input" type="text" id="ckApellido" placeholder="Apellido *" />
+        <input class="ck-input" type="email" id="ckEmail" placeholder="Email *" />
+        <div class="ck-nav">
+          <button class="ck-btn-sec" onclick="cerrarCheckout()">Cancelar</button>
+          <button class="ck-btn-pri" onclick="irPaso(2)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 2: Dirección de envío -->
+      <div class="ck-step hidden" id="ckStep2">
+        <h2 class="ck-titulo">Dirección de envío</h2>
+        <input class="ck-input" type="text" id="ckDireccion" placeholder="Calle y número *" />
+        <div class="ck-row-2">
+          <input class="ck-input" type="text" id="ckLocalidad" placeholder="Localidad *" />
+          <input class="ck-input" type="text" id="ckProvincia" placeholder="Provincia *" />
+        </div>
+        <input class="ck-input" type="text" id="ckCP" placeholder="Código postal *" maxlength="8" inputmode="numeric" />
+        <label class="ck-label">Horario de entrega preferido:</label>
+        <select class="ck-select" id="ckHorario">
+          <option value="" disabled selected>Seleccioná un horario</option>
+          <option value="8 a 14hs">Mañana: 8 a 14hs</option>
+          <option value="14 a 20hs">Tarde: 14 a 20hs</option>
+        </select>
+        <div class="ck-nav">
+          <button class="ck-btn-sec" onclick="irPaso(1)">← Atrás</button>
+          <button class="ck-btn-pri" onclick="irPaso(3)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 3: Método de pago -->
+      <div class="ck-step hidden" id="ckStep3">
+        <h2 class="ck-titulo">Método de pago</h2>
+        <div class="ck-pay-tabs">
+          <button class="ck-pay-tab active" id="tabTransferencia" onclick="seleccionarPago('transferencia', this)">Transferencia</button>
+          <button class="ck-pay-tab" id="tabTarjeta" onclick="seleccionarPago('tarjeta', this)">Débito / Crédito</button>
+        </div>
+
+        <!-- Transferencia -->
+        <div id="ckPagoTransferencia">
+          <div class="ck-bank-info">
+            <p><span>Alias:</span> FUNDAS.GURU.MP</p>
+            <p><span>CBU:</span> 0000003100012345678901</p>
+            <p><span>Titular:</span> Fundas Guru S.A.</p>
+            <p><span>CUIT:</span> 30-12345678-9</p>
+          </div>
+          <label class="ck-label">Adjuntar comprobante de pago:</label>
+          <input class="ck-file" type="file" id="ckComprobante" accept="image/*,application/pdf" />
+        </div>
+
+        <!-- Tarjeta -->
+        <div id="ckPagoTarjeta" class="hidden">
+          <div class="ck-card-preview" id="ckCardPreview">
+            <div class="ck-card-chip"></div>
+            <div class="ck-card-num-display" id="ckCardNumDisplay">•••• •••• •••• ••••</div>
+            <div class="ck-card-row">
+              <div>
+                <div class="ck-card-label-sm">Titular</div>
+                <div id="ckCardNameDisplay">NOMBRE APELLIDO</div>
+              </div>
+              <div>
+                <div class="ck-card-label-sm">Vence</div>
+                <div id="ckCardExpDisplay">MM/AA</div>
+              </div>
+            </div>
+          </div>
+          <input class="ck-input" type="text" id="ckCardNum" placeholder="Número de tarjeta" maxlength="19" inputmode="numeric" />
+          <input class="ck-input" type="text" id="ckCardNombre" placeholder="Nombre completo (igual a la tarjeta)" />
+          <div class="ck-row-2">
+            <input class="ck-input" type="text" id="ckCardExp" placeholder="MM/AA" maxlength="5" inputmode="numeric" />
+            <input class="ck-input" type="text" id="ckCardCvv" placeholder="CVV" maxlength="4" inputmode="numeric" />
+          </div>
+        </div>
+
+        <div class="ck-nav">
+          <button class="ck-btn-sec" onclick="irPaso(2)">← Atrás</button>
+          <button class="ck-btn-pri" onclick="confirmarCompra()">Confirmar compra</button>
+        </div>
+      </div>
+
+      <!-- PASO 4: Éxito -->
+      <div class="ck-step hidden" id="ckStep4">
+        <div class="ck-success-icon">
+          <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="25" fill="none"/><path fill="none" d="M14 27l8 8 16-16"/></svg>
+        </div>
+        <h2 class="ck-titulo">¡Muchas gracias por tu compra!</h2>
+        <p class="ck-subtitulo">Tu pedido fue recibido correctamente.</p>
+        <div id="ckResumen" class="ck-resumen"></div>
+        <button class="ck-btn-pri" style="margin-top:20px" onclick="cerrarCheckout()">Cerrar</button>
+      </div>
+
     </div>
   </div>
 
