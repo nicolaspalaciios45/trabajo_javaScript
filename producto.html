@@ -22,8 +22,8 @@
     </nav>
 
     <div class="navbar-right">
-      <button class="hamburger" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
       <button id="btnCarrito" class="carrito-btn-nav">🛒 <span id="carritoCount">0</span></button>
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
     </div>
   </header>
 
@@ -275,6 +275,24 @@
       </div>
 
     </div>
+  </div>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splashScreen" class="splash">
+    <div class="splash-content">
+      <img src="multimedia/logo guru.png" alt="Fundas Guru" class="splash-logo" />
+      <p class="splash-nombre">Fundas Guru</p>
+      <div class="splash-bar-wrap">
+        <div class="splash-bar"></div>
+      </div>
+      <p class="splash-texto">Cargando...</p>
+    </div>
+  </div>
+
+  <!-- VISOR DE IMAGEN SIMPLE -->
+  <div id="visorImg" class="visor-simple">
+    <span class="visor-cerrar" id="cerrarVisorSimple">&times;</span>
+    <img id="visorImgSrc" src="" alt="" />
   </div>
 
   <script src="app.js"></script>

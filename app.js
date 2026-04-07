@@ -82,6 +82,18 @@ function renderizarProductos(productos) {
 }
 
 // ================================================
+// SPLASH SCREEN
+// ================================================
+(function () {
+  const splash = document.getElementById("splashScreen");
+  if (!splash) return;
+  setTimeout(() => {
+    splash.classList.add("oculto");
+    setTimeout(() => splash.remove(), 650);
+  }, 5000);
+})();
+
+// ================================================
 // INICIO: DOMContentLoaded
 // ================================================
 document.addEventListener("DOMContentLoaded", async () => {
@@ -450,5 +462,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  // ================================================
+  // VISOR DE IMAGEN SIMPLE (click en foto del producto)
+  // ================================================
+  const visorSimple = document.getElementById("visorImg");
+  const visorImgSrc = document.getElementById("visorImgSrc");
+  const cerrarVisorSimple = document.getElementById("cerrarVisorSimple");
+
+  if (visorSimple && visorImgSrc) {
+    document.addEventListener("click", (e) => {
+      const img = e.target.closest(".img-wrap img");
+      if (!img) return;
+      e.stopPropagation();
+      visorImgSrc.src = img.src;
+      visorSimple.classList.add("show");
+      document.body.style.overflow = "hidden";
+    });
+
+    function cerrarVisor() {
+      visorSimple.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    if (cerrarVisorSimple) cerrarVisorSimple.addEventListener("click", cerrarVisor);
+    visorSimple.addEventListener("click", (e) => { if (e.target === visorSimple) cerrarVisor(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrarVisor(); });
+  }
 
 });
