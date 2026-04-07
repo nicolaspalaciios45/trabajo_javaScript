@@ -16,14 +16,15 @@
       <span>Fundas Guru</span>
     </div>
 
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
-
     <nav class="nav-links" id="navLinks">
       <a href="index.html">Inicio</a>
       <a href="producto.html" class="active">Productos</a>
     </nav>
 
-    <button id="btnCarrito" class="carrito-btn-nav">🛒 <span id="carritoCount">0</span></button>
+    <div class="navbar-right">
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+      <button id="btnCarrito" class="carrito-btn-nav">🛒 <span id="carritoCount">0</span></button>
+    </div>
   </header>
 
   <div id="cotizacion" class="cotizacion-bar"></div>
@@ -159,28 +160,6 @@
     </div>
   </div>
 
-  <!-- MODAL INFO + SLIDER PRO -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span id="cerrar" class="cerrar">&times;</span>
-
-      <div class="slider">
-        <button id="prevImg" class="flecha" aria-label="Anterior">‹</button>
-
-        <div class="slider-viewport">
-          <div id="sliderTrack" class="slider-track"></div>
-        </div>
-
-        <button id="nextImg" class="flecha" aria-label="Siguiente">›</button>
-      </div>
-
-      <div id="dots" class="dots"></div>
-
-      <h2 id="modalTitulo"></h2>
-      <p id="modalPrecio"></p>
-    </div>
-  </div>
-
   <!-- ================================================
        CHECKOUT MODAL (3 pasos + confirmación)
   ================================================ -->
@@ -296,12 +275,6 @@
       </div>
 
     </div>
-  </div>
-
-  <!-- VISOR DE IMAGEN (ZOOM EXTRA) -->
-  <div id="visorImagen" class="visor">
-    <span id="cerrarVisor" class="cerrar">&times;</span>
-    <img id="imagenGrande" src="">
   </div>
 
   <script src="app.js"></script>

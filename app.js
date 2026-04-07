@@ -92,106 +92,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderizarProductos(productos);
 
   // ================================================
-  // MODAL + SLIDER
-  // ================================================
-  const modal = document.getElementById("modal");
-  const cerrar = document.getElementById("cerrar");
-  const modalTitulo = document.getElementById("modalTitulo");
-  const modalPrecio = document.getElementById("modalPrecio");
-  const prevImg = document.getElementById("prevImg");
-  const nextImg = document.getElementById("nextImg");
-  const dotsBox = document.getElementById("dots");
-  const track = document.getElementById("sliderTrack");
-
-  let imagenesActuales = [];
-  let indexImg = 0;
-
-  function renderSlider() {
-    if (!track) return;
-    track.innerHTML = imagenesActuales.map(src => `<img src="${src}" alt="">`).join("");
-    moverSlider();
-    renderDots();
-  }
-
-  function moverSlider() {
-    if (!track) return;
-    track.style.transform = `translateX(-${indexImg * 100}%)`;
-  }
-
-  function renderDots() {
-    if (!dotsBox) return;
-    dotsBox.innerHTML = "";
-    imagenesActuales.forEach((_, i) => {
-      const d = document.createElement("span");
-      d.className = "dot" + (i === indexImg ? " active" : "");
-      d.addEventListener("click", (e) => {
-        e.stopPropagation();
-        indexImg = i;
-        moverSlider();
-        renderDots();
-      });
-      dotsBox.appendChild(d);
-    });
-  }
-
-  function cambiarImg(dir) {
-    if (imagenesActuales.length <= 1) return;
-    indexImg += dir;
-    if (indexImg < 0) indexImg = imagenesActuales.length - 1;
-    if (indexImg >= imagenesActuales.length) indexImg = 0;
-    moverSlider();
-    renderDots();
-  }
-
-  if (prevImg) prevImg.addEventListener("click", (e) => { e.stopPropagation(); cambiarImg(-1); });
-  if (nextImg) nextImg.addEventListener("click", (e) => { e.stopPropagation(); cambiarImg(1); });
-
-  document.addEventListener("keydown", (e) => {
-    if (!modal || !modal.classList.contains("show")) return;
-    if (e.key === "ArrowLeft") cambiarImg(-1);
-    if (e.key === "ArrowRight") cambiarImg(1);
-    if (e.key === "Escape") modal.classList.remove("show");
-  });
-
-  const sliderViewport = document.querySelector(".slider-viewport");
-  let startX = 0, endX = 0;
-
-  if (sliderViewport) {
-    sliderViewport.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
-    sliderViewport.addEventListener("touchmove", (e) => { endX = e.touches[0].clientX; }, { passive: true });
-    sliderViewport.addEventListener("touchend", () => {
-      const diff = endX - startX;
-      if (Math.abs(diff) < 40) return;
-      cambiarImg(diff < 0 ? 1 : -1);
-      startX = 0; endX = 0;
-    });
-  }
-
-  // Delegación de eventos para productos renderizados dinámicamente
-  document.addEventListener("click", (e) => {
-    const card = e.target.closest(".producto");
-    if (!card) return;
-    if (e.target.classList.contains("btn-add")) return;
-
-    const titulo = card.querySelector("h3")?.innerText || "";
-    const precio = card.querySelector(".precio")?.innerText || "";
-    const btn = card.querySelector(".btn-add");
-    const imgDefault = card.querySelector("img")?.getAttribute("src") || "";
-    const dataImgs = btn?.dataset.imgs;
-
-    if (modalTitulo) modalTitulo.innerText = titulo;
-    if (modalPrecio) modalPrecio.innerText = precio;
-
-    imagenesActuales = dataImgs ? dataImgs.split(",").map(s => s.trim()) : [imgDefault];
-    indexImg = 0;
-    renderSlider();
-    if (modal) modal.classList.add("show");
-  });
-
-  if (cerrar) cerrar.addEventListener("click", () => modal.classList.remove("show"));
-  if (modal) modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
-
-  // ================================================
   // CARRITO
   // ================================================
   const KEY = "carrito_fundas_guru";
@@ -550,22 +450,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // ================================================
-  // VISOR EXTRA (ZOOM EN IMAGEN)
-  // ================================================
-  const visor = document.getElementById("visorImagen");
-  const imagenGrande = document.getElementById("imagenGrande");
-  const cerrarVisor = document.getElementById("cerrarVisor");
-
-  if (visor && imagenGrande && cerrarVisor) {
-    document.addEventListener("click", (e) => {
-      if (!e.target.matches(".producto img")) return;
-      e.stopPropagation();
-      imagenGrande.src = e.target.src;
-      visor.style.display = "flex";
-    });
-    cerrarVisor.addEventListener("click", () => visor.style.display = "none");
-    visor.addEventListener("click", (e) => { if (e.target === visor) visor.style.display = "none"; });
-  }
 
 });

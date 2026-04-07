@@ -54,13 +54,20 @@ body {
   border-color: #f0c040;
 }
 
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .hamburger {
   display: none;
   background: transparent;
   border: 1px solid white;
   color: white;
-  font-size: 28px;
-  padding: 6px 12px;
+  font-size: 24px;
+  padding: 6px 11px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -269,95 +276,11 @@ footer {
 
 .whatsapp:hover { transform: scale(1.1); }
 
-/* ===== MODAL ===== */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-.modal.show { display: flex; }
-
-.modal-content {
-  background: #fff;
-  width: min(620px, 92%);
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-}
-
 .cerrar {
   float: right;
   font-size: 28px;
   cursor: pointer;
 }
-
-/* ===== SLIDER MODAL PRO ===== */
-.slider{
-  position: relative;
-  display: grid;
-  grid-template-columns: 50px 1fr 50px;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.flecha{
-  border: none;
-  background: rgba(0,0,0,0.08);
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flecha:hover{ background: rgba(0,0,0,0.15); }
-
-.slider-viewport{
-  overflow: hidden;
-  width: 100%;
-}
-
-.slider-track{
-  display: flex;
-  transition: transform 0.35s ease;
-  will-change: transform;
-}
-
-.slider-track img{
-  width: 220px;
-  height: 220px;
-  object-fit: contain;
-  flex: 0 0 100%;
-  user-select: none;
-  pointer-events: none;
-}
-
-.dots{
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.dot{
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #ccc;
-  cursor: pointer;
-}
-
-.dot.active{ background: #111; }
 
 /* ===== BOTON WHATSAPP EN CARRITO ===== */
 .btn-wsp{
@@ -509,38 +432,6 @@ footer {
   cursor: pointer;
 }
 
-/* ===== VISOR DE IMAGEN (ZOOM EXTRA) ===== */
-.visor {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-}
-
-.visor img {
-  max-width: 80%;
-  max-height: 80%;
-  border-radius: 12px;
-  animation: zoomIn 0.3s ease;
-}
-
-@keyframes zoomIn {
-  from { transform: scale(0.7); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-.visor .cerrar {
-  position: absolute;
-  top: 30px;
-  right: 40px;
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-  float: none;
-}
 
 /* ===== TABLET GRANDE (≤ 900px) ===== */
 @media (max-width: 900px) {
@@ -572,18 +463,20 @@ footer {
     padding: 6px 10px;
   }
 
+  /* Menú desplegable: se abre pegado a la pared derecha */
   .nav-links {
     display: none;
     position: absolute;
-    top: 68px;
-    right: 15px;
-    background: rgba(0,0,0,0.92);
-    padding: 12px;
-    border-radius: 12px;
+    top: 100%;
+    right: 0;
+    background: rgba(0,0,0,0.95);
+    padding: 12px 16px;
+    border-radius: 0 0 0 14px;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     z-index: 999;
-    min-width: 180px;
+    min-width: 160px;
+    box-shadow: -4px 4px 20px rgba(0,0,0,0.4);
   }
 
   .nav-links.open { display: flex; }
@@ -750,14 +643,6 @@ footer {
     font-size: 0.88rem;
     padding: 10px 10px;
   }
-
-  /* Modal producto */
-  .slider-track img {
-    width: 160px;
-    height: 160px;
-  }
-
-  .modal-content { padding: 14px; }
 
   /* Whatsapp */
   .whatsapp {
