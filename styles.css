@@ -77,6 +77,14 @@ main {
 
 main h1 { font-size: 42px; }
 
+.imagen-principal {
+  display: block;
+  margin: 20px auto 0;
+  width: 500px;
+  max-width: 100%;
+  border-radius: 16px;
+}
+
 /* ===== BUSCADOR ===== */
 .buscador-wrapper {
   display: flex;
@@ -513,9 +521,30 @@ footer {
   float: none;
 }
 
-/* ===== SOLO CELULAR ===== */
+/* ===== TABLET GRANDE (≤ 900px) ===== */
+@media (max-width: 900px) {
+  main {
+    margin: 24px 16px;
+    padding: 36px 20px;
+  }
+
+  .productos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .imagen-principal {
+    width: 100% !important;
+    max-width: 420px;
+  }
+}
+
+/* ===== TABLET Y CELULAR (≤ 768px) ===== */
 @media (max-width: 768px) {
+  /* Navbar */
   .hamburger { display: block; }
+
+  .navbar { padding: 14px 20px; }
 
   .carrito-btn-nav {
     font-size: 13px;
@@ -525,40 +554,204 @@ footer {
   .nav-links {
     display: none;
     position: absolute;
-    top: 70px;
+    top: 68px;
     right: 15px;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.92);
     padding: 12px;
     border-radius: 12px;
     flex-direction: column;
     gap: 10px;
     z-index: 999;
+    min-width: 180px;
   }
 
   .nav-links.open { display: flex; }
 
   .nav-links a {
     margin: 0;
-    width: 160px;
+    width: 100%;
     text-align: center;
   }
 
-  /* ✅ Línea siempre visible en celular */
-  .producto h3::after {
-    width: 60%;
+  /* Main */
+  main {
+    margin: 16px 12px;
+    padding: 28px 16px;
+    border-radius: 16px;
   }
 
-  /* ✅ Indicador siempre visible en celular */
+  main h1 { font-size: 30px; }
+
+  /* Productos */
+  .producto h3::after { width: 60%; }
+
   .producto::after {
     content: "👆 Tocar para ampliar";
     opacity: 1;
     bottom: 70px;
   }
 
-  /* ✅ Más espacio abajo en celular */
-  body {
-    padding-bottom: 100px;
+  /* Carrito panel ocupa toda la pantalla en mobile */
+  .carrito-panel {
+    width: 100%;
+    right: -100%;
   }
+  .carrito-panel.open { right: 0; }
+
+  /* Checkout */
+  .ck-row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .ck-box {
+    padding: 24px 18px 20px;
+  }
+
+  body { padding-bottom: 100px; }
+}
+
+/* ===== SOLO CELULAR (≤ 480px) ===== */
+@media (max-width: 480px) {
+  /* Navbar */
+  .navbar { padding: 10px 14px; }
+
+  .logo-img { width: 36px; }
+
+  .logo span { font-size: 14px; }
+
+  .carrito-btn-nav {
+    font-size: 12px;
+    padding: 5px 9px;
+  }
+
+  .carrito-btn-nav span { font-size: 11px; }
+
+  /* Main */
+  main {
+    margin: 10px 8px;
+    padding: 20px 12px;
+    border-radius: 12px;
+  }
+
+  main h1 { font-size: 24px; }
+
+  /* Index imagen */
+  .imagen-principal {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  /* Personalización */
+  .personalizacion h2 { font-size: 20px; }
+  .personalizacion p  { font-size: 15px; }
+
+  /* Buscador */
+  .buscador-wrapper { padding: 0 6px; }
+
+  #buscadorProductos {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  /* Filtros */
+  .filtros-wrapper { gap: 8px; }
+
+  .filtro-btn {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+  }
+
+  /* Productos: 2 columnas compactas */
+  .productos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 0 6px;
+  }
+
+  .producto {
+    padding: 12px 8px;
+  }
+
+  .producto img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .producto h3 {
+    font-size: 0.85rem;
+    margin: 8px 0 4px;
+  }
+
+  .precio { font-size: 15px; }
+
+  .btn-add {
+    font-size: 0.78rem;
+    padding: 8px 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Carrito panel full width */
+  .carrito-panel {
+    width: 100%;
+    right: -100%;
+  }
+
+  .carrito-panel.open { right: 0; }
+
+  /* Checkout: sube desde abajo como sheet */
+  .ck-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .ck-box {
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    max-height: 92vh;
+    padding: 20px 14px 28px;
+    animation: ckSlideUp 0.3s ease;
+  }
+
+  @keyframes ckSlideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  .ck-titulo { font-size: 1.2rem; }
+
+  .ck-card-preview {
+    padding: 14px 16px;
+    min-height: 100px;
+  }
+
+  .ck-card-num-display {
+    font-size: 0.88rem;
+    letter-spacing: 2px;
+  }
+
+  .ck-btn-pri,
+  .ck-btn-sec {
+    font-size: 0.88rem;
+    padding: 10px 10px;
+  }
+
+  /* Modal producto */
+  .slider-track img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .modal-content { padding: 14px; }
+
+  /* Whatsapp */
+  .whatsapp {
+    bottom: 16px;
+    right: 14px;
+    padding: 11px;
+  }
+
+  body { padding-bottom: 80px; }
 }
 
 /* ===== SECCIÓN PERSONALIZACIÓN ===== */
