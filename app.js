@@ -64,7 +64,9 @@ function renderizarProductos(productos) {
     div.className = "producto";
     div.dataset.categoria = p.categoria || "";
     div.innerHTML = `
-      <img src="${p.img}" alt="${p.nombre}">
+      <div class="img-wrap">
+        <img src="${p.img}" alt="${p.nombre}">
+      </div>
       <h3>${p.nombre}</h3>
       <p class="precio">$${p.precio.toLocaleString("es-AR")}</p>
       <button class="btn-add"
