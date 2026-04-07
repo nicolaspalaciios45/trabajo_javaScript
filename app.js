@@ -87,10 +87,15 @@ function renderizarProductos(productos) {
 (function () {
   const splash = document.getElementById("splashScreen");
   if (!splash) return;
+  if (sessionStorage.getItem("splashVisto")) {
+    splash.remove();
+    return;
+  }
+  sessionStorage.setItem("splashVisto", "1");
   setTimeout(() => {
     splash.classList.add("oculto");
     setTimeout(() => splash.remove(), 650);
-  }, 5000);
+  }, 4000);
 })();
 
 // ================================================

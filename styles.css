@@ -127,7 +127,7 @@ body {
   width: 0%;
   background: linear-gradient(90deg, #c9a43b, #f0c040);
   border-radius: 999px;
-  animation: splashLoad 5s linear forwards;
+  animation: splashLoad 4s linear forwards;
 }
 
 @keyframes splashLoad {
