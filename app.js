@@ -16,20 +16,14 @@ function toggleMenu() {
 }
 
 // ================================================
-// ASINCRONISMO: Cotización USD desde API externa
+// NAVBAR BLUR AL HACER SCROLL
 // ================================================
-async function obtenerCambioUSD() {
-  try {
-    const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
-    if (!res.ok) throw new Error("Error al obtener cotización");
-    const data = await res.json();
-    const ars = data.rates.ARS;
-    const el = document.getElementById("cotizacion");
-    if (el) el.innerText = `💵 USD 1 = $${Math.round(ars).toLocaleString("es-AR")} ARS`;
-  } catch (e) {
-    console.warn("No se pudo obtener cotización:", e.message);
-  }
-}
+window.addEventListener("scroll", () => {
+  const navbar = document.querySelector(".navbar");
+  if (!navbar) return;
+  navbar.classList.toggle("scrolled", window.scrollY > 40);
+});
+
 
 // ================================================
 // ASINCRONISMO: Carga de productos desde JSON
@@ -79,6 +73,18 @@ function renderizarProductos(productos) {
     `;
     contenedor.appendChild(div);
   });
+
+  // Animación de entrada con Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll(".producto").forEach(card => observer.observe(card));
 }
 
 // ================================================
@@ -104,7 +110,6 @@ function renderizarProductos(productos) {
 document.addEventListener("DOMContentLoaded", async () => {
 
   // Llamadas asíncronas al cargar
-  await obtenerCambioUSD();
   const productos = await cargarProductos();
   renderizarProductos(productos);
 
